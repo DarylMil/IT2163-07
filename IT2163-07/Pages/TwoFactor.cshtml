@@ -1,0 +1,25 @@
+﻿@page
+@model IT2163_07.Pages.TwoFactorModel
+
+@using AspNetCore.ReCaptcha
+
+<div class="container full-wo-footer">
+    <form method="post">
+        <div class="row"  style="height:400px;">
+            <div class="col" style="background-image:url(/assets/images/login-banner.jpg);background-size:cover;display:flex;align-items:center;">
+            </div>
+            <div class="col">
+                <h2 class="mb-3">Two Step Authentication</h2>
+                <p>An OTP Is Sent To Your Mobile Number</p>
+                <div class="form-floating">
+                    <label>OTP Code</label>
+                    <input asp-for="TwoFA.OTP" class="form-control" aria-required="true" autocomplete="off"/>
+                    <span asp-validation-for="TwoFA.OTP" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="w-100 filled-button mt-2 "> Login </button>
+                @Html.ReCaptcha()
+            </div>
+        </div>
+    </form>
+</div>

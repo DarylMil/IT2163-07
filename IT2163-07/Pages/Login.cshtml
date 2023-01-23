@@ -1,0 +1,26 @@
+﻿@page
+@model IT2163_07.Pages.LoginModel
+@{
+}
+@using AspNetCore.ReCaptcha
+
+<h1>Login</h1>
+<div class="row">
+     <form id="account" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-floating">
+            <input asp-for="LoginModels.Email" class="form-control" autocomplete="username" aria-required="true" />
+            <label asp-for="LoginModels.Email" class="form-label"></label>
+            <span asp-validation-for="LoginModels.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating">
+            <input asp-for="LoginModels.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+            <label asp-for="LoginModels.Password" class="form-label"></label>
+            <span asp-validation-for="LoginModels.Password" class="text-danger"></span>
+        </div>
+        <div>
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+        </div>
+        @Html.ReCaptcha()
+    </form>
+</div>

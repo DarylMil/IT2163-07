@@ -1,0 +1,39 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using IT2163_07.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var allRoles = await UserManager.GetRolesAsync(user);
+
+    <li class="nav-item">
+        <a id="manage" class="nav-link" asp-page="/UserDashboard" title="Profile">Hello @(user !=null ? @user.FullName:"")!</a>
+    </li>
+    @foreach(var i in allRoles ){
+         <li class="nav-item">
+            <a class="nav-link" asp-page=@($"/{i}Member") title="@i">@i Member Page</a>
+        </li>
+    }
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" asp-page="/Logout">
+            <button id="logout" class="nav-link" type="submit" >Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" id="register" asp-page="/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="login" asp-page="/Login">Login</a>
+    </li>
+}
+</ul>

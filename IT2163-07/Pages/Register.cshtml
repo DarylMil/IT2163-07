@@ -1,0 +1,151 @@
+﻿@page
+@model IT2163_07.Pages.RegisterModel
+@{
+}
+@using AspNetCore.ReCaptcha
+<form id="register-form" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <h2>Create a new account.</h2>
+        <hr />
+        <div class="col-md-8">
+            <div class="form-floating">
+                <input id="fullname-input" asp-for="registerModels.FullName" class="form-control" aria-required="true"/>
+                <label asp-for="registerModels.FullName"></label>
+                <span id="fullname-validation" asp-validation-for="registerModels.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input id="creditcard-input" asp-for="registerModels.CreditCardNo" class="form-control" aria-required="true"/>
+                <label asp-for="registerModels.CreditCardNo"></label>
+                <span id="creditcard-validation" asp-validation-for="registerModels.CreditCardNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="registerModels.Gender"></label>
+                <div>
+                    @Html.RadioButtonFor(model => model.registerModels.Gender, "M", new { @class = "form-check-input", @checked = true })
+                    <label class="form-check-label">Male</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.registerModels.Gender, "F", new { @class = "form-check-input" })
+                    <label class="form-check-label">Female</label>
+                </div>
+                <span asp-validation-for="registerModels.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="registerModels.Role"></label>
+                <div>
+                    @Html.RadioButtonFor(model => model.registerModels.Role, "Bronze", new { @class = "form-check-input", @checked = true })
+                    <label class="form-check-label">Bronze</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.registerModels.Role, "Silver", new { @class = "form-check-input" })
+                    <label class="form-check-label">Silver</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.registerModels.Role, "Gold", new { @class = "form-check-input" })
+                    <label class="form-check-label">Gold</label>
+                </div>
+                <span asp-validation-for="registerModels.Role" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input id="mobile-input" asp-for="registerModels.MobileNo" class="form-control" aria-required="true"/>
+                <label asp-for="registerModels.MobileNo"></label>
+                <span id="mobileno-validation" asp-validation-for="registerModels.MobileNo" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="registerModels.DeliveryAddress" class="form-control" aria-required="true" />
+                <label asp-for="registerModels.DeliveryAddress"></label>
+                <span asp-validation-for="registerModels.DeliveryAddress" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input id="email-input" type="email" asp-for="registerModels.Email" class="form-control" aria-required="true" />
+                <label asp-for="registerModels.Email"></label>
+                <span id="email-validation" asp-validation-for="registerModels.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input id="password-input" asp-for="registerModels.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="registerModels.Password"></label>
+                <span id="password-validation" asp-validation-for="registerModels.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="registerModels.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="registerModels.ConfirmPassword"></label>
+                <span asp-validation-for="registerModels.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="registerModels.AboutMe" class="form-control" aria-required="true" />
+                <label asp-for="registerModels.AboutMe"></label>
+                <span asp-validation-for="registerModels.AboutMe" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <input type="file" accept="image/jpg" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" />
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+            <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="/uploads/images/default_pic.jpg" />
+        </div>
+        <button id="register-submit" type="button" class="w-100 btn btn-lg btn-primary">Register</button>
+    </div>
+    @Html.ReCaptcha()
+</form>
+
+<script>
+    function showImgPreview(input) {
+    if (input.files[0]) {
+        var uploadimg = new FileReader();
+        uploadimg.onload = function(displayimg) {
+            $("#imgPreview").attr('src', displayimg.target.result);
+        }
+        uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@section Scripts {
+    <script>
+        $(document).ready(()=>{
+            var regexPwd = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[#?!@@$%\^&\*\-])(?=.{12,})");
+            var regexFN = new RegExp("[A-z ]+");
+            var regexCC = new RegExp("[0-9]{16}");
+            var regexMobile = new RegExp("[0-9]{8}");
+            var regexEmail = /^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$/
+
+            $("#register-submit").click(()=>{
+                var resPwd = regexPwd.test($("#password-input").val());
+                var resFN = regexFN.test($("#fullname-input").val().trim());
+                var resCC = regexCC.test($("#creditcard-input").val());
+                var resMobile = regexMobile.test($("#mobile-input").val());
+                var resEmail = regexEmail.test($("#email-input").val());
+
+                if(resPwd && resFN && resCC && resMobile && resEmail){
+                    $("#register-form").submit();
+                }else{
+                    if(!resPwd){
+                        $("#password-validation").text("Password requires At least one upper case, at least one lower case, at least one digit, at least one special character (#?!@@$%^&*-), minimum 12 characters");
+                    }else{
+                        $("#password-validation").text();
+                    }
+                    console.log(resFN, resCC);
+                    if(!resFN){
+                        $("#fullname-validation").text("Name cannot be empty and can only contain alphabets and space.");
+                    }else{
+                        $("#fullname-validation").text();
+                    }
+                    if(!resCC){
+                        $("#creditcard-validation").text("Credit Cards Number Without Spacing. eg: 4444111122223333");
+                    }else{
+                        $("#creditcard-validation").text();
+                    }
+                    if(!resMobile){
+                        $("#mobileno-validation").text("Invalid Mobile Number Format. Please key in eg: 88888888");
+                    }else{
+                        $("#mobileno-validation").text();
+                    }
+                    if(!resEmail){
+                        $("#email-validation").text("Invalid Email Format");
+                    }else{
+                        $("#email-validation").text();
+                    }
+                }
+            });
+
+        });
+    </script>
+}

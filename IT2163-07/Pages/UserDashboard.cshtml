@@ -1,0 +1,73 @@
+﻿@page
+@model IT2163_07.Pages.UserDashboardModel
+@{
+}
+<div class="row">
+    <div class="row">
+        
+        <h2>Member Home Page.</h2>
+        <hr />
+        <div class="col-md-8">
+            <div class="form-floating">
+                <input asp-for="AppUser.FullName" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.FullName"></label>
+            </div>
+            <div class="form-floating">
+                <input asp-for="AppUser.CreditCardNo" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.CreditCardNo"></label>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.Gender"></label>
+                <div>
+                    @Html.RadioButtonFor(model => model.AppUser.Gender, "M", new { @class = "form-check-input", @disabled=true, @checked=(@Model.AppUser.Gender=="M"?true:false) })
+                    <label class="form-check-label">Male</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.AppUser.Gender, "F", new { @class = "form-check-input", @disabled=true,@checked=(@Model.AppUser.Gender=="F"?true:false) })
+                    <label class="form-check-label">Female</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Roles"></label>
+                <div>
+                    @Html.RadioButtonFor(model => model.Roles, "Bronze", new { @class = "form-check-input", @disabled=true , @checked=(@Model.Roles.Contains("Bronze")?true:false) })
+                    <label class="form-check-label">Bronze</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.Roles, "Silver", new { @class = "form-check-input", @disabled=true, @checked=(@Model.Roles.Contains("Silver")?true:false) })
+                    <label class="form-check-label">Silver</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.Roles, "Gold", new { @class = "form-check-input", @disabled=true, @checked=(@Model.Roles.Contains("Gold")?true:false) })
+                    <label class="form-check-label">Gold</label>
+                </div>
+            </div>
+            <div class="form-floating">
+                <input asp-for="AppUser.MobileNo" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.MobileNo"></label>
+                
+            </div>
+            <div class="form-floating">
+                <input asp-for="AppUser.DeliveryAddress" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.DeliveryAddress"></label>
+                
+            </div>
+            <div class="form-floating">
+                <input type="email" asp-for="AppUser.Email" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.Email"></label>
+                
+            </div>
+           
+            <div class="form-floating">
+                <input asp-for="AppUser.AboutMe" class="form-control" aria-required="true" disabled/>
+                <label asp-for="AppUser.AboutMe"></label>
+                
+            </div>
+            <div>
+                <form method="post">
+                    <button type="submit">Change your password</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="@Model.AppUser.Photo" />
+        </div>
+        @*<button id="register-submit" type="button" class="w-100 btn btn-lg btn-primary">Register</button>*@
+    </div>
+</div>
